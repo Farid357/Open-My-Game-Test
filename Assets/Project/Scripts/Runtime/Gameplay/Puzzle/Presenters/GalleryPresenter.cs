@@ -15,14 +15,16 @@ namespace OMG.Presenters
     {
         private readonly IPreviewService _previewService;
         private readonly IPuzzleGalleryView _view;
+        private readonly IPuzzleDialogView _dialogView;
         private readonly DiContainer _container;
         private readonly CompositeDisposable _compositeDisposable = new();
         private readonly CancellationTokenSource _cancellationToken = new();
 
-        public GalleryPresenter(IPreviewService previewService, IPuzzleGalleryView view, DiContainer container)
+        public GalleryPresenter(IPreviewService previewService, IPuzzleGalleryView view, IPuzzleDialogView dialogView, DiContainer container)
         {
             _previewService = previewService ?? throw new ArgumentNullException(nameof(previewService));
             _view = view ?? throw new ArgumentNullException(nameof(view));
+            _dialogView = dialogView ?? throw new ArgumentNullException(nameof(dialogView));
             _container = container ?? throw new ArgumentNullException(nameof(container));
 
             InitializeAsync().Forget();
@@ -48,9 +50,9 @@ namespace OMG.Presenters
             {
                 Debug.Log("[GalleryPresenter] Initialize canceled");
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Debug.LogError($"[GalleryPresenter] Initialize error: {ex}");
+                Debug.LogError($"[GalleryPresenter] Initialize error: {exception}");
             }
             finally
             {
@@ -60,21 +62,7 @@ namespace OMG.Presenters
 
         private void OnPreviewClicked(PuzzleMeta meta)
         {
-            try
-            {
-                var dialogView = _container.Resolve<IPuzzleDialogView>();
-                if (dialogView == null)
-                {
-                    Debug.LogWarning("DialogView not bound.");
-                    return;
-                }
-                
-                ShowDialogForMetaAsync(meta, dialogView).Forget();
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"[GalleryPresenter] OnPreviewClicked error: {ex}");
-            }
+            ShowDialogForMetaAsync(meta, _dialogView).Forget();
         }
 
         private async UniTaskVoid ShowDialogForMetaAsync(PuzzleMeta meta, IPuzzleDialogView dialog)
@@ -84,13 +72,12 @@ namespace OMG.Presenters
             {
                 texture = await _previewService.LoadPreviewTextureAsync(meta.PreviewUrl, _cancellationToken.Token);
             }
-            catch { /* ignore */ }
+            catch { /* ignore (made for future updates) */ }
 
             var smallSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
 
             dialog.Show(meta, smallSprite);
 
-            // Create presenter for dialog via DI factory or directly
             var factory = _container.Resolve<PuzzleDialogPresenter.Factory>();
             PuzzleDialogPresenter presenter = factory.Create(meta);
             // Presenter created, lifecycle owned by presenter itself (will Dispose on Close)
@@ -104,3 +91,4 @@ namespace OMG.Presenters
         }
     }
 }
+

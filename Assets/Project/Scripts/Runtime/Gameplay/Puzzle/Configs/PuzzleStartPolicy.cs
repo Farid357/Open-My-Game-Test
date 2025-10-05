@@ -16,15 +16,10 @@ namespace OMG.Configs
         [Tooltip("Coin cost when coin-based start is selected.")]
         [SerializeField] private int _puzzleCost = 25;
 
-        [Tooltip("Pieces count threshold above which ad-based start is used.")]
-        [SerializeField] private int _rewardedAbovePieces = 50;
-
         public int MaxFreePieces => _maxFreePieces;
     
         public int MaxCoinsPieces => _maxCoinsPieces;
      
         public int PuzzleCost => _puzzleCost;
-     
-        public int RewardedAbovePieces => _rewardedAbovePieces;
     }
 }

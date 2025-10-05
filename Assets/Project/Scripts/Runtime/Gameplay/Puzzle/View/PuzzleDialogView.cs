@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using OMG.Configs;
 using OMG.Models;
 using TMPro;
@@ -11,15 +10,15 @@ namespace OMG.Views
 {
     public sealed class PuzzleDialogView : MonoBehaviour, IPuzzleDialogView
     {
-        [SerializeField] private GameObject _root;
+        [SerializeField] private CanvasGroup _root;
         [SerializeField] private Image _previewImage;
         [SerializeField] private TMP_Dropdown _piecesDropdown;
         [SerializeField] private Button _startButton;
         [SerializeField] private Button _closeButton;
-        [SerializeField] private List<TMP_Text> _coinsTexts;
         [SerializeField] private TMP_Text _statusText;
+        [SerializeField] private TMP_Text _startButtonText;
         [SerializeField] private Slider _progressSlider;
-
+        
         private readonly Subject<int> _onPieces = new();
         private readonly Subject<Unit> _onStart = new();
         private readonly Subject<Unit> _onClose = new();
@@ -30,10 +29,7 @@ namespace OMG.Views
 
         private void Awake()
         {
-            _piecesDropdown.onValueChanged.AsObservable()
-                .Subscribe(i => _onPieces.OnNext(ParseDropdown(_piecesDropdown.options[i].text)))
-                .AddTo(this);
-
+            _piecesDropdown.onValueChanged.AsObservable().Subscribe(i => _onPieces.OnNext(ParseDropdown(_piecesDropdown.options[i].text))).AddTo(this);
             _startButton.onClick.AsObservable().Subscribe(_ => _onStart.OnNext(Unit.Default)).AddTo(this);
             _closeButton.onClick.AsObservable().Subscribe(_ => _onClose.OnNext(Unit.Default)).AddTo(this);
 
@@ -44,7 +40,7 @@ namespace OMG.Views
 
         public void Show(PuzzleMeta meta, Sprite previewSmall)
         {
-            _root.SetActive(true);
+            _root.gameObject.SetActive(true);
             _previewImage.sprite = previewSmall;
             _previewImage.preserveAspect = true;
             _statusText.text = meta.Title;
@@ -52,40 +48,28 @@ namespace OMG.Views
             SetInteractable(true);
         }
 
-        public void Close() => _root.SetActive(false);
+        public void Close() => _root.gameObject.SetActive(false);
 
-        public void UpdateStartMode(StartMode mode, int coinsNeeded)
+        public void UpdateStartMode(PuzzleStartMode mode, int coinsNeeded)
         {
-            TMP_Text text = _startButton.GetComponentInChildren<TMP_Text>();
-            switch (mode)
+            _startButtonText.text = mode switch
             {
-                case StartMode.Free:
-                    text.text = "Start (Free)";
-                    break;
-                case StartMode.Coins:
-                    text.text = $"Start ({coinsNeeded} coins)";
-                    break;
-                case StartMode.Ads:
-                    text.text = "Watch Ad to Start";
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
-            }
+                PuzzleStartMode.Free => "Start (Free)",
+                PuzzleStartMode.Coins => $"Start ({coinsNeeded} coins)",
+                PuzzleStartMode.Ads => "Watch Ad to Start",
+                _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
+            };
         }
 
+        public void ResetSelectedPieces() => _piecesDropdown.SetValueWithoutNotify(0);
+        
         public void UpdateProgress(float progress) => _progressSlider.value = Mathf.Clamp01(progress);
 
-        public void SetInteractable(bool interactable)
-        {
-            _startButton.interactable = interactable; 
-            _piecesDropdown.interactable = interactable; 
-        }
-
-        public void SetCoins(int coins) => _coinsTexts.ForEach(text => text.text = $"Coins: {coins}");
+        public void SetInteractable(bool interactable) => _root.interactable = interactable;
 
         public void SetStatus(string text) => _statusText.text = text;
 
-        private void HideImmediate() => _root.SetActive(false);
+        private void HideImmediate() => _root.gameObject.SetActive(false);
 
         private void OnDestroy()
         {

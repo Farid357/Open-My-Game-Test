@@ -2,7 +2,7 @@
 
 namespace OMG.Configs
 {
-    public sealed class PuzzleStartPolicyAdapter : IStartCostPolicy
+    public sealed class PuzzleStartPolicyAdapter : IPuzzleStartCostPolicy
     {
         private readonly PuzzleStartPolicy _config;
 
@@ -11,15 +11,15 @@ namespace OMG.Configs
             _config = config;
         }
 
-        public StartMode GetStartModeForPieces(int pieces)
+        public PuzzleStartMode GetStartModeForPieces(int pieces)
         {
             if (pieces <= _config.MaxFreePieces)
-                return StartMode.Free;
+                return PuzzleStartMode.Free;
 
             if (pieces <= _config.MaxCoinsPieces)
-                return StartMode.Coins;
+                return PuzzleStartMode.Coins;
 
-            return StartMode.Ads;
+            return PuzzleStartMode.Ads;
         }
 
         public int GetPuzzleCost() => _config.PuzzleCost;

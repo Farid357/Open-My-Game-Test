@@ -1,6 +1,6 @@
 ﻿namespace OMG.Configs
 {
-    public enum StartMode
+    public enum PuzzleStartMode
     {
         Free,
         Coins,

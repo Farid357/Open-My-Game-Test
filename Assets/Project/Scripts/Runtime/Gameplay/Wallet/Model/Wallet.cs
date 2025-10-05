@@ -20,7 +20,7 @@ namespace OMG.Models
         public void Spend(int amount)
         {
             if (CanSpend(amount) == false)
-                throw new InvalidOperationException("Insufficient funds.");
+                throw new ArgumentOutOfRangeException("Insufficient funds.");
             
             _money.Value -= amount;
         }

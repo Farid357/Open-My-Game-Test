@@ -10,13 +10,13 @@ namespace OMG.Views
        
         void Close();
 
-        void UpdateStartMode(StartMode mode, int coinsNeeded);
+        void UpdateStartMode(PuzzleStartMode mode, int coinsNeeded);
      
         void UpdateProgress(float progress);
         
         void SetInteractable(bool interactable);
-        void SetCoins(int coins);
         
         void SetStatus(string text);
+        void ResetSelectedPieces();
     }
 }

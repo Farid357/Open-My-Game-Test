@@ -2190,6 +2190,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1570597118}
+        m_TargetAssemblyTypeName: OMG.Views.PuzzleDialogView, OMG.Runtime
+        m_MethodName: ResetSelectedPieces
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &866155376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3375,15 +3387,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2167fc016cb041ee997fc0af3d08a3e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _root: {fileID: 1616262965}
+  _root: {fileID: 1616262969}
   _previewImage: {fileID: 2032968483}
   _piecesDropdown: {fileID: 43138007}
   _startButton: {fileID: 654938936}
   _closeButton: {fileID: 866155375}
-  _coinsTexts:
-  - {fileID: 652062757}
-  - {fileID: 965007773}
   _statusText: {fileID: 1714793775}
+  _startButtonText: {fileID: 1378051033}
   _progressSlider: {fileID: 617878971}
 --- !u!4 &1570597119
 Transform:
@@ -3447,6 +3457,7 @@ GameObject:
   - component: {fileID: 1616262966}
   - component: {fileID: 1616262968}
   - component: {fileID: 1616262967}
+  - component: {fileID: 1616262969}
   m_Layer: 5
   m_Name: PuzzleSelectionPanel
   m_TagString: Untagged
@@ -3516,6 +3527,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1616262965}
   m_CullTransparentMesh: 1
+--- !u!225 &1616262969
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616262965}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1656863833
 GameObject:
   m_ObjectHideFlags: 0
@@ -3622,6 +3645,53 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1661967045
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1661967046}
+  - component: {fileID: 1661967047}
+  m_Layer: 0
+  m_Name: WalletView
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1661967046
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661967045}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1120.587, y: 253.74612, z: -8.408518}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1880776644}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1661967047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661967045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52b7736f714446b2b3c09d4778e598e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _coinsTexts:
+  - {fileID: 965007773}
+  - {fileID: 652062757}
 --- !u!1 &1714793773
 GameObject:
   m_ObjectHideFlags: 0
@@ -3986,6 +4056,7 @@ Transform:
   m_Children:
   - {fileID: 1190060354}
   - {fileID: 1570597119}
+  - {fileID: 1661967046}
   m_Father: {fileID: 2142299670}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1880776645
@@ -4002,6 +4073,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _galleryView: {fileID: 1190060355}
   _dialogView: {fileID: 1570597118}
+  _walletView: {fileID: 1661967047}
   _puzzleStartPolicyAsset: {fileID: 11400000, guid: 4a39eb339202f514d8ca4a18dfa0af59, type: 2}
 --- !u!1 &2032968481
 GameObject:
